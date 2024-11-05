@@ -1,0 +1,131 @@
+#: kivy 2.1.0
+
+GridLayout:
+    cols: 1
+    padding: 0, 0
+    spacing: 20
+
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1  # Set the background color to white
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+        padding: 40, 100
+        spacing: 0
+
+        Label:
+            text: "Moisture Level: "
+            size_hint_y: 0.5
+            height: 40
+            font_size: 20
+            color: 0, 0, 0, 1  # Set text color to black (RGBA format)
+
+        Label:
+            id: moisture_level  # This label will show data from Firebase
+            text: "Waiting for data..."
+            size_hint_y: 0.5
+            height: 40
+            font_size: 20
+            color: 0, 0, 0, 1  # Set text color to black (RGBA format)
+
+        ProgressBar:
+            id: moisture_progress_bar  # Progress bar for moisture level
+            value: 0  # Start value of the progress bar
+            max: 100  # Maximum value
+            size_hint_y: None
+            height: 30  # Set height for the progress bar
+            color: 0, 0.5, 1, 1  # Set the color of the progress bar
+
+    GridLayout:  # New nested GridLayout for inputs
+        cols: 2  # Define the number of columns for the nested layout
+        spacing: 10  # Spacing between elements in the nested GridLayout
+        padding: 10  # Padding around the nested GridLayout
+
+        Spinner:  # Dropdown menu for user input
+            id: input1  # Assign an ID to access the Spinner
+            text: "Soil Type"  # Default text
+            values: ["Clay", "Sandy", "Loam"]  # Dropdown options
+            size_hint_y: None
+            height: 40  # Set height for the Spinner
+            background_normal: ''
+            background_color: 0.9, 0.9, 0.9, 1  # Light grey background
+            color: 0, 0, 0, 0.4
+            on_text: self.color = 0, 0, 0, 1 if self.text != "Soil Type" else (0.5, 0.5, 0.5, 1)
+
+        TextInput:  # User input field 2
+            id: input2  # Assign an ID to access this TextInput
+            hint_text: "Ph (3.5 - 9.9)"
+            multiline: False  # Single line input
+            size_hint_y: None
+            height: 40  # Set height for the TextInput
+            background_normal: ''
+            background_color: 0.9, 0.9, 0.9, 1  # Light grey background
+            foreground_color: 0, 0, 0, 1  # Black text color
+            halign: 'center'  # Center-align hint text
+            padding_x: 10  # Add padding to center hint text visually
+            hint_text_color: 0.5, 0.5, 0.5, 1  # Set hint text color
+
+        TextInput:  # User input field 3
+            id: input3  # Assign an ID to access this TextInput
+            hint_text: "Temperature (8 - 43 C)"
+            multiline: False  # Single line input
+            size_hint_y: None
+            height: 40  # Set height for the TextInput
+            background_normal: ''
+            background_color: 0.9, 0.9, 0.9, 1  # Light grey background
+            foreground_color: 0, 0, 0, 1  # Black text color
+            halign: 'center'  # Center-align hint text
+            padding_x: 10  # Add padding to center hint text visually
+            hint_text_color: 0.5, 0.5, 0.5, 1  # Set hint text color
+
+        TextInput:  # User input field 4
+            id: input4  # Assign an ID to access this TextInput
+            hint_text: "Rainfall (30 - 300 mm)"
+            multiline: False  # Single line input
+            size_hint_y: None
+            height: 40  # Set height for the TextInput
+            background_normal: ''
+            background_color: 0.9, 0.9, 0.9, 1  # Light grey background
+            foreground_color: 0, 0, 0, 1  # Black text color
+            halign: 'center'  # Center-align hint text
+            padding_x: 10  # Add padding to center hint text visually
+            hint_text_color: 0.5, 0.5, 0.5, 1  # Set hint text color
+
+    GridLayout:  # This layout will contain the new label
+        cols: 1
+        size_hint_y: None
+        height: 50  # Set a fixed height for the label layout
+
+        Label:  # New label to show the result of submission
+            text: "You can plant: "  # Initial text
+            size_hint_y: None
+            height: 40
+            color: 0, 0, 0, 1  # Set text color to black
+            font_size: 15
+
+    GridLayout:  # This layout will contain the new label
+        cols: 1
+        size_hint_y: None
+        height: 50  # Set a fixed height for the label layout
+        Label:  # New label to show the result of submission
+            id: prediction_label  # ID for the result label
+            text: ""  # Initial text
+            size_hint_y: None
+            height: 40
+            color: 0, 0, 0, 1  # Set text color to black
+            font_size: 30
+
+    GridLayout:
+        cols: 1
+        size_hint_y: None
+        height: 50  # Set a fixed height for the label layout
+        padding: 0,10
+        Button:  # Add a button after the user inputs
+            text: "Submit"
+            size_hint_y: None
+            height: 50  # Set height for the button
+            on_press: app.submit_parameters()  # Bind the button press to a function
